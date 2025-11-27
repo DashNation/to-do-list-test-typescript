@@ -7,6 +7,8 @@
   --innerShadowColor: white;
   --outerShadowColor: white;
   --emptyListTxt: white;
+  --removeBtnBg: rgb(255, 47, 47);
+  --redGlow: #ff5959;
   background: var(--bgColor);
   color: var(--textColor);
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
@@ -89,8 +91,35 @@
   box-shadow: 0rem -0.5rem 2rem -1.5rem var(--innerShadowColor) inset;
   transform: scale(1.1);
 }
+#editBtn.active {
+  background-color: var(--textColor);
+  color: var(--btnBg);
+  border: var(--btnBg) 1px solid;
+  transition: box-shadow 1s, transform 0.5s;
+}
+
+#editBtn.active:hover {
+  box-shadow: 0rem -0rem 2rem -0.9rem var(--innerShadowColor);
+  transform: scale(1.1);
+}
 
 #editBtn {
+  font-size: 1.2rem;
+}
+
+#removeBtn.active {
+  background-color: var(--removeBtnBg);
+  color: var(--btnBg);
+  border: var(--btnBg) 1px solid;
+  transition: box-shadow 1s, transform 0.5s;
+}
+
+#removeBtn.active:hover {
+  box-shadow: 0rem -0rem 2rem -0.9rem var(--redGlow);
+  transform: scale(1.1);
+}
+
+#removeBtn {
   font-size: 1.2rem;
 }
 
@@ -145,4 +174,9 @@
   100% {
     transform: translateX(0rem) translateY(0rem);
   }
+}
+
+/* Id I use to fill out the dots on the left side to show which one is selected */
+.selectedItem {
+  list-style: disc;
 }

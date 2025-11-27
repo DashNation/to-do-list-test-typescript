@@ -4,6 +4,8 @@ const removeBtn = document.getElementById("removeBtn");
 const todoValueInputField = document.getElementById("todoValueInputField");
 const noteList = document.getElementById("noteList");
 let noteCount = 0;
+let isEditActive = false;
+let isRemoveActive = false;
 class Note {
     note;
     id;
@@ -25,6 +27,24 @@ addBtn.addEventListener("click", (e) => {
     e.preventDefault();
     ClickAddNoteHandler(e);
 });
+editBtn.addEventListener("click", (e) => {
+    isEditActive = !isEditActive;
+    if (isEditActive) {
+        editBtn.classList.add("active");
+    }
+    else {
+        editBtn.classList.remove("active");
+    }
+});
+removeBtn.addEventListener("click", (e) => {
+    isRemoveActive = !isRemoveActive;
+    if (isRemoveActive) {
+        removeBtn.classList.add("active");
+    }
+    else {
+        removeBtn.classList.remove("active");
+    }
+});
 todoValueInputField.addEventListener("keyup", (e) => {
     if (e.key === "Enter") {
         e.preventDefault();
@@ -32,7 +52,6 @@ todoValueInputField.addEventListener("keyup", (e) => {
     }
 });
 function ClickAddNoteHandler(event) {
-    console.log("add Button clicked!");
     if (todoValueInputField.value !== "") {
         let note = new Note(todoValueInputField.value);
         note.addNote();
@@ -58,5 +77,19 @@ function checkNodeListChildren() {
         noteList.removeChild(emptyListMsg);
     }
 }
+noteList.addEventListener("dblclick", (e) => {
+    console.log("dblclick found!");
+    const target = e.target;
+    if (target.tagName !== "LI")
+        return console.log("returned from dblclick event!");
+    if (target.classList.contains("selectedItem")) {
+        console.log("SELECTED ALREADY!!!");
+        target.classList.remove("selectedItem");
+    }
+    else {
+        target.classList.add("selectedItem");
+        console.log("added class");
+    }
+});
 export {};
 //# sourceMappingURL=index.js.map
