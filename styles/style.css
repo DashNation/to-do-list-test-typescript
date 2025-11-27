@@ -1,0 +1,115 @@
+:root {
+  --bgColor: rgb(0, 0, 0);
+  --textColor: white;
+  --borderColor: white;
+  --inputFieldBg: rgb(15, 15, 15);
+  --btnBg: black;
+  --innerShadowColor: white;
+  --outerShadowColor: white;
+  background: var(--bgColor);
+  color: var(--textColor);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  filter: brightness(1.1);
+}
+
+#flexWrapper {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#listWrapper {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  gap: 0.5rem;
+  max-width: 100rem;
+  min-width: 10rem;
+  height: auto;
+  align-items: center;
+  border-style: none;
+  border-radius: 50px;
+  border: var(--borderColor) 1px solid;
+  transition: box-shadow 1s, transform 1s;
+}
+
+#listWrapper:hover {
+  box-shadow: 0rem -5rem 10rem -12rem var(--innerShadowColor) inset,
+    0px 0px 5rem -3rem var(--outerShadowColor);
+  transform: scale(1.01);
+}
+
+.inputField {
+  width: 20rem;
+  height: 3rem;
+  text-align: center;
+  color: var(--textColor);
+  background-color: var(--inputFieldBg);
+  border-style: none;
+  border-radius: 100px;
+  border: var(--borderColor) 1px solid;
+}
+
+#todoValueInputField {
+  outline-style: none;
+  transition: box-shadow 0.5s, transform 0.5s;
+}
+
+#todoValueInputField:focus {
+  box-shadow: -0.5rem -0.5rem 2rem -1.8rem var(--innerShadowColor) inset;
+  transform: scale(1.01);
+}
+
+#inputWrapper {
+  width: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  align-items: center;
+}
+
+.btn {
+  width: 5rem;
+  height: 3rem;
+  background: var(--btnBg);
+  color: var(--textColor);
+  border-style: none;
+  border-radius: 100px;
+  border: var(--borderColor) 1px solid;
+  margin-left: 1rem;
+  font-weight: 100;
+  transition: box-shadow 0.5s, transform 0.5s;
+}
+
+.btn:hover {
+  box-shadow: 0rem -0.5rem 2rem -1.5rem var(--innerShadowColor) inset;
+  transform: scale(1.1);
+}
+
+#noteList {
+  width: 15rem;
+  height: auto;
+  padding: 1rem;
+  padding-left: 2rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: start;
+  margin-right: auto;
+  margin-left: 1rem;
+  list-style-type: circle;
+  border-style: none;
+  border-radius: 30px;
+  font-weight: 100;
+  border: 1px var(--borderColor) solid;
+  transition: box-shadow 0.5s, transform 0.5s;
+}
+
+#noteList:hover {
+  box-shadow: 0rem -0.5rem 5rem -4.8rem var(--innerShadowColor) inset;
+  transform: scale(1.01);
+}

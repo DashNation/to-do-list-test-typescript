@@ -1,0 +1,14 @@
+{
+  "name": "to-do-list-test-typescript",
+  "version": "1.0.0",
+  "dependencies": {
+    "uglifyjs": "^2.4.11"
+  },
+  "scripts": {
+    "build": "tsc && uglifyjs dist/index.js -o dist/index.min.js -c -m",
+    "short": "uglifyjs dist/index.js -o dist/index.min.js -c -m"
+  },
+  "devDependencies": {
+    "uglify-js": "^3.19.3"
+  }
+}
