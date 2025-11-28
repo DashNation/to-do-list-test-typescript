@@ -13,6 +13,7 @@
   color: var(--textColor);
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   filter: brightness(1.1);
+  overflow: hidden;
 }
 
 #flexWrapper {
@@ -142,6 +143,11 @@
   font-weight: 100;
   border: 1px var(--borderColor) solid;
   transition: box-shadow 0.5s, transform 0.5s;
+}
+
+#noteList::selection {
+  background: transparent;
+  color: inherit;
 }
 
 #noteList:hover {
