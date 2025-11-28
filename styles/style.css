@@ -42,7 +42,7 @@
 
 #listWrapper:hover {
   box-shadow: 0rem -5rem 10rem -12rem var(--innerShadowColor) inset,
-    0px 0px 5rem -3rem var(--outerShadowColor);
+    0px 0px 2.5rem -1.1rem var(--outerShadowColor);
   transform: scale(1.01);
 }
 

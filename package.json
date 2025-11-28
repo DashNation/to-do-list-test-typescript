@@ -8,5 +8,8 @@
   "devDependencies": {
     "uglify-js": "^3.19.3",
     "uglifyjs": "^2.4.11"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
   }
 }
