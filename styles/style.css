@@ -9,10 +9,13 @@
   --emptyListTxt: white;
   --removeBtnBg: rgb(255, 47, 47);
   --redGlow: #ff5959;
+  --scrollbarThumbColor: #ffffff;
   background: var(--bgColor);
   color: var(--textColor);
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  filter: brightness(1.1);
+  overflow-x: hidden;
+  overflow-y: hidden;
+  filter: brightness(1.5);
 }
 
 #flexWrapper {
@@ -41,7 +44,7 @@
 
 #listWrapper:hover {
   box-shadow: 0rem -5rem 10rem -12rem var(--innerShadowColor) inset,
-    0px 0px 5rem -3rem var(--outerShadowColor);
+    0px 0px 2.5rem -1rem var(--outerShadowColor);
   transform: scale(1.01);
 }
 
@@ -127,6 +130,8 @@
   width: 15rem;
   height: auto;
   min-height: 1.5rem;
+  max-height: 20rem;
+  overflow-y: scroll;
   padding: 1rem;
   padding-left: 2rem;
   text-align: center;
@@ -142,6 +147,15 @@
   font-weight: 100;
   border: 1px var(--borderColor) solid;
   transition: box-shadow 0.5s, transform 0.5s;
+}
+
+#noteList::-webkit-scrollbar {
+  display: none;
+}
+
+#noteList::selection {
+  background: transparent;
+  color: inherit;
 }
 
 #noteList:hover {
