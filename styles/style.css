@@ -30,7 +30,7 @@
 #listWrapper {
   display: flex;
   flex-direction: column;
-  padding: 1rem;
+  padding: 1.5rem;
   gap: 0.5rem;
   max-width: 100rem;
   min-width: 10rem;
@@ -127,7 +127,8 @@
 }
 
 #noteList {
-  width: 15rem;
+  align-self: center;
+  width: 85%;
   height: auto;
   min-height: 1.5rem;
   max-height: 20rem;
