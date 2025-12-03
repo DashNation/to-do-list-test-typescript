@@ -32,6 +32,43 @@ class Note {
       noteList.appendChild(noteListItem);
     }
   }
+
+  static editNote(target: HTMLElement): void {
+    const noteListItemContent = target.textContent || "";
+    const userInputField = document.createElement("input") as HTMLInputElement;
+    userInputField.value = noteListItemContent;
+    userInputField.id = "userInputField";
+    userInputField.classList.add("userInputField");
+    userInputField.type = "text";
+    target.replaceWith(userInputField);
+    userInputField.focus();
+
+    function finishEdit() {
+      const noteListItem = document.createElement("li") as HTMLLIElement;
+      let noteListItemContent = noteListItem.value;
+      noteListItem.textContent = userInputField.value;
+      noteListItem.classList.add("listElement");
+      userInputField.replaceWith(noteListItem);
+    }
+
+    function stopEdit(noteListItemContent: string) {
+      const noteListItem = document.createElement("li") as HTMLLIElement;
+      noteListItem.textContent = noteListItemContent;
+      noteListItem.classList.add("listElement");
+      userInputField.replaceWith(noteListItem);
+    }
+
+    userInputField.addEventListener("keydown", (e: KeyboardEvent) => {
+      if (e.key === "Enter") {
+        finishEdit();
+      }
+      if (e.key === "Escape") {
+        console.log("Escape Pressed!");
+        stopEdit(noteListItemContent);
+      }
+    });
+    userInputField.addEventListener("blur", () => finishEdit());
+  }
 }
 
 //Add Btn Event listener
@@ -70,7 +107,7 @@ todoValueInputField.addEventListener("keyup", (e) => {
     ClickAddNoteHandler(e);
   }
 });
-
+//cSpell: disable-next-line
 //Funktion die bei einem Button click aufgerufen wird
 function ClickAddNoteHandler(event: Event) {
   //   console.log("add Button clicked!");
@@ -82,6 +119,8 @@ function ClickAddNoteHandler(event: Event) {
   }
 }
 
+//cSpell: disable-next-line
+// Conditions um zu bestimmen ob der "No thoughts collected Text" erscheint
 document.addEventListener("DOMContentLoaded", checkNodeListChildren);
 document.addEventListener("change", checkNodeListChildren);
 const emptyListMsg = document.createElement("p") as HTMLParagraphElement;
@@ -113,4 +152,12 @@ noteList.addEventListener("dblclick", (e) => {
     target.classList.add("selectedItem");
     console.log("added class");
   }
+  if (isEditActive && target.classList.contains("selectedItem")) {
+    editBtnClickHandler(target);
+  }
 });
+
+function editBtnClickHandler(target: HTMLElement) {
+  if (target.tagName !== "LI") return;
+  Note.editNote(target);
+}

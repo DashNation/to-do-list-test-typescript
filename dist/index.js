@@ -1,3 +1,7 @@
+//cSpell: disable
+//TODO: Ich möchte einbauen das wenn man die notes Editieren oder Löschen möchte das man den Editieren oder Löschen Knopf
+// TODO mit anclicken an und aus toggelt und dann im active toggle modus per doppelclick eine beliebige note löschen kann
+//cSpell: enable
 const addBtn = document.getElementById("addBtn");
 const editBtn = document.getElementById("editBtn");
 const removeBtn = document.getElementById("removeBtn");
@@ -22,13 +26,50 @@ class Note {
             noteList.appendChild(noteListItem);
         }
     }
+    static editNote(target) {
+        const noteListItemContent = target.textContent || "";
+        const userInputField = document.createElement("input");
+        userInputField.value = noteListItemContent;
+        userInputField.id = "userInputField";
+        userInputField.classList.add("userInputField");
+        userInputField.type = "text";
+        target.replaceWith(userInputField);
+        userInputField.focus();
+        function finishEdit() {
+            const noteListItem = document.createElement("li");
+            let noteListItemContent = noteListItem.value;
+            noteListItem.textContent = userInputField.value;
+            noteListItem.classList.add("listElement");
+            userInputField.replaceWith(noteListItem);
+        }
+        function stopEdit(noteListItemContent) {
+            const noteListItem = document.createElement("li");
+            noteListItem.textContent = noteListItemContent;
+            noteListItem.classList.add("listElement");
+            userInputField.replaceWith(noteListItem);
+        }
+        userInputField.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") {
+                finishEdit();
+            }
+            if (e.key === "Escape") {
+                console.log("Escape Pressed!");
+                stopEdit(noteListItemContent);
+            }
+        });
+        userInputField.addEventListener("blur", () => finishEdit());
+    }
 }
+//Add Btn Event listener
 addBtn.addEventListener("click", (e) => {
     e.preventDefault();
     ClickAddNoteHandler(e);
 });
+//Edit Btn Event Listener
 editBtn.addEventListener("click", (e) => {
+    //   console.log("Edit Btn Clicked!");
     isEditActive = !isEditActive;
+    //   console.log(`EditBtnState: ${isEditActive}`);
     if (isEditActive) {
         editBtn.classList.add("active");
     }
@@ -36,8 +77,11 @@ editBtn.addEventListener("click", (e) => {
         editBtn.classList.remove("active");
     }
 });
+//Remove Btn Event Listener
 removeBtn.addEventListener("click", (e) => {
+    //   console.log("Remove Button Clicked!");
     isRemoveActive = !isRemoveActive;
+    //   console.log(`RemoveBtnState:${isRemoveActive}`);
     if (isRemoveActive) {
         removeBtn.classList.add("active");
     }
@@ -51,7 +95,10 @@ todoValueInputField.addEventListener("keyup", (e) => {
         ClickAddNoteHandler(e);
     }
 });
+//cSpell: disable-next-line
+//Funktion die bei einem Button click aufgerufen wird
 function ClickAddNoteHandler(event) {
+    //   console.log("add Button clicked!");
     if (todoValueInputField.value !== "") {
         let note = new Note(todoValueInputField.value);
         note.addNote();
@@ -59,6 +106,8 @@ function ClickAddNoteHandler(event) {
         checkNodeListChildren();
     }
 }
+//cSpell: disable-next-line
+// Conditions um zu bestimmen ob der "No thoughts collected Text" erscheint
 document.addEventListener("DOMContentLoaded", checkNodeListChildren);
 document.addEventListener("change", checkNodeListChildren);
 const emptyListMsg = document.createElement("p");
@@ -77,6 +126,7 @@ function checkNodeListChildren() {
         noteList.removeChild(emptyListMsg);
     }
 }
+//Giving noteList children events
 noteList.addEventListener("dblclick", (e) => {
     console.log("dblclick found!");
     const target = e.target;
@@ -90,6 +140,14 @@ noteList.addEventListener("dblclick", (e) => {
         target.classList.add("selectedItem");
         console.log("added class");
     }
+    if (isEditActive && target.classList.contains("selectedItem")) {
+        editBtnClickHandler(target);
+    }
 });
+function editBtnClickHandler(target) {
+    if (target.tagName !== "LI")
+        return;
+    Note.editNote(target);
+}
 export {};
 //# sourceMappingURL=index.js.map
