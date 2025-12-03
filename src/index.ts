@@ -49,11 +49,21 @@ class Note {
 
   addNote(): void {
     if (this.note !== "") {
+      const noteListItemWrapper = document.createElement(
+        "div"
+      ) as HTMLDivElement;
+      noteListItemWrapper.id = "noteListItemWrapper";
+      noteListItemWrapper.style.display = "flex";
+      noteListItemWrapper.style.flexDirection = "row";
+      noteListItemWrapper.style.width = "100%";
+      noteListItemWrapper.style.height = "100%";
+      noteList.appendChild(noteListItemWrapper);
+
       const noteListItem = document.createElement("li") as HTMLLIElement;
       noteListItem.classList.add("listElement");
       noteListItem.innerHTML = this.note;
       noteListItem.id = `${this.id}`;
-      noteList.appendChild(noteListItem);
+      noteListItemWrapper.appendChild(noteListItem);
     }
   }
 
@@ -224,19 +234,17 @@ function checkNodeListChildren() {
 
 //Giving noteList children events
 noteList.addEventListener("dblclick", (e) => {
-  console.log("dblclick found!");
   const target = e.target as HTMLElement;
-  if (target.tagName !== "LI")
-    return console.log("returned from dblclick event!");
-  if (target.classList.contains("selectedItem")) {
-    console.log("SELECTED ALREADY!!!");
-    target.classList.remove("selectedItem");
+  const li = target.closest("li") as HTMLElement;
+  if (!li || !noteList.contains(li)) return;
+
+  if (li.classList.contains("selectedItem")) {
+    li.classList.remove("selectedItem");
   } else {
-    target.classList.add("selectedItem");
-    console.log("added class");
+    li.classList.add("selectedItem");
   }
-  if (isEditActive && target.classList.contains("selectedItem")) {
-    editBtnClickHandler(target);
+  if (isEditActive && li.classList.contains("selectedItem")) {
+    editBtnClickHandler(li);
   }
 });
 
