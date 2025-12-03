@@ -215,8 +215,10 @@ function checkNodeListChildren() {
     }
     emptyListMsg.style.display = "block";
   } else {
+    if (noteList.contains(emptyListMsg)) {
+      noteList.removeChild(emptyListMsg);
+    }
     emptyListMsg.style.display = "none";
-    noteList.removeChild(emptyListMsg);
   }
 }
 
