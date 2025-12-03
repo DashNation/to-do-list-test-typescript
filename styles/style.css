@@ -87,6 +87,7 @@
   border: var(--borderColor) 1px solid;
   margin-left: 1rem;
   font-weight: 100;
+  cursor: pointer;
   transition: box-shadow 0.5s, transform 0.5s;
 }
 
@@ -146,6 +147,8 @@
   border-style: none;
   border-radius: 30px;
   font-weight: 100;
+  user-select: none;
+  -moz-user-select: none;
   border: 1px var(--borderColor) solid;
   transition: box-shadow 0.5s, transform 0.5s;
 }
