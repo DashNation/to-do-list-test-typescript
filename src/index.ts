@@ -14,6 +14,30 @@ let noteCount: number = 0;
 let isEditActive: boolean = false;
 let isRemoveActive: boolean = false;
 
+// cSpell:disable-next-line
+//hotkeys um buttons oben zu aktivieren und zu deaktivieren
+window.addEventListener("keydown", (e: KeyboardEvent) => {
+  if (e.key.toLocaleLowerCase() === "e" && e.altKey) {
+    isEditActive = !isEditActive;
+    if (isEditActive) {
+      editBtn.classList.add("active");
+    } else {
+      editBtn.classList.remove("active");
+    }
+  }
+});
+
+window.addEventListener("keydown", (e: KeyboardEvent) => {
+  if (e.key.toLocaleLowerCase() === "r" && e.altKey) {
+    isRemoveActive = !isRemoveActive;
+    if (isRemoveActive) {
+      removeBtn.classList.add("active");
+    } else {
+      removeBtn.classList.remove("active");
+    }
+  }
+});
+
 class Note {
   note: string;
   id: number;
