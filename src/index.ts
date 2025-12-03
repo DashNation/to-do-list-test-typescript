@@ -34,13 +34,48 @@ class Note {
   }
 
   static editNote(target: HTMLElement): void {
+    //cSpell: disable-next-line
+    //Wrapper der das InputFeld und die Buttons zusammen schön aligned
+    const userInputWrapper = document.createElement("div") as HTMLDivElement;
+    userInputWrapper.id = "userInputWrapper";
+    userInputWrapper.style.display = "flex";
+    userInputWrapper.style.flexDirection = "row";
+    userInputWrapper.style.justifyContent = "space-between";
+    userInputWrapper.style.gap = "0.05rem";
+    noteList.appendChild(userInputWrapper);
+    //cSpell: disable-next-line
+    //inputfield wird erstellt
     const noteListItemContent = target.textContent || "";
     const userInputField = document.createElement("input") as HTMLInputElement;
     userInputField.value = noteListItemContent;
     userInputField.id = "userInputField";
     userInputField.classList.add("userInputField");
     userInputField.type = "text";
-    target.replaceWith(userInputField);
+
+    // cSpell: disable-next-line
+    //erstellen der Buttons
+    //checkBtn
+    const checkBtn = document.createElement("button") as HTMLButtonElement;
+    checkBtn.classList.add("checkBtn");
+    checkBtn.classList.add("btn");
+    const checkImg = document.createElement("img") as HTMLImageElement;
+    checkImg.src = "SVG/checkMark24.svg";
+    checkImg.classList.add("check");
+    checkBtn.appendChild(checkImg);
+
+    //crossBtn
+    const crossBtn = document.createElement("button") as HTMLButtonElement;
+    crossBtn.classList.add("crossBtn");
+    crossBtn.classList.add("btn");
+    const crossImg = document.createElement("img");
+    crossImg.src = "SVG/cross50.svg";
+    crossImg.classList.add("cross");
+    crossBtn.appendChild(crossImg);
+
+    userInputWrapper.appendChild(userInputField);
+    userInputWrapper.appendChild(checkBtn);
+    userInputWrapper.appendChild(crossBtn);
+    target.replaceWith(userInputWrapper);
     userInputField.focus();
 
     function finishEdit() {
@@ -48,7 +83,9 @@ class Note {
       let noteListItemContent = noteListItem.value;
       noteListItem.textContent = userInputField.value;
       noteListItem.classList.add("listElement");
-      userInputField.replaceWith(noteListItem);
+      userInputWrapper.replaceWith(noteListItem);
+      checkBtn.remove();
+      crossBtn.remove();
     }
 
     function stopEdit(noteListItemContent: string) {
@@ -56,18 +93,38 @@ class Note {
       noteListItem.textContent = noteListItemContent;
       noteListItem.classList.add("listElement");
       userInputField.replaceWith(noteListItem);
+      checkBtn.remove();
+      crossBtn.remove();
     }
 
+    let isClickingBtn = false;
+
+    checkBtn.addEventListener("mousedown", () => {
+      isClickingBtn = true;
+      finishEdit();
+    });
+
+    crossBtn.addEventListener("mousedown", () => {
+      isClickingBtn = true;
+      stopEdit(noteListItemContent);
+    });
+
     userInputField.addEventListener("keydown", (e: KeyboardEvent) => {
-      if (e.key === "Enter") {
-        finishEdit();
-      }
-      if (e.key === "Escape") {
-        console.log("Escape Pressed!");
-        stopEdit(noteListItemContent);
+      if (!isClickingBtn) {
+        if (e.key === "Enter") {
+          finishEdit();
+        }
+        if (e.key === "Escape") {
+          console.log("Escape Pressed!");
+          stopEdit(noteListItemContent);
+        }
       }
     });
-    userInputField.addEventListener("blur", () => finishEdit());
+    userInputField.addEventListener("blur", () => {
+      if (!isClickingBtn) {
+        finishEdit();
+      }
+    });
   }
 }
 
