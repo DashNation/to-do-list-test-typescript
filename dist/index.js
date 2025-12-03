@@ -6,6 +6,28 @@ const noteList = document.getElementById("noteList");
 let noteCount = 0;
 let isEditActive = false;
 let isRemoveActive = false;
+window.addEventListener("keydown", (e) => {
+    if (e.key.toLocaleLowerCase() === "e" && e.altKey) {
+        isEditActive = !isEditActive;
+        if (isEditActive) {
+            editBtn.classList.add("active");
+        }
+        else {
+            editBtn.classList.remove("active");
+        }
+    }
+});
+window.addEventListener("keydown", (e) => {
+    if (e.key.toLocaleLowerCase() === "r" && e.altKey) {
+        isRemoveActive = !isRemoveActive;
+        if (isRemoveActive) {
+            removeBtn.classList.add("active");
+        }
+        else {
+            removeBtn.classList.remove("active");
+        }
+    }
+});
 class Note {
     note;
     id;
@@ -21,6 +43,82 @@ class Note {
             noteListItem.id = `${this.id}`;
             noteList.appendChild(noteListItem);
         }
+    }
+    static editNote(target) {
+        const userInputWrapper = document.createElement("div");
+        userInputWrapper.id = "userInputWrapper";
+        userInputWrapper.style.display = "flex";
+        userInputWrapper.style.flexDirection = "row";
+        userInputWrapper.style.justifyContent = "space-between";
+        userInputWrapper.style.gap = "0.05rem";
+        noteList.appendChild(userInputWrapper);
+        const noteListItemContent = target.textContent || "";
+        const userInputField = document.createElement("input");
+        userInputField.value = noteListItemContent;
+        userInputField.id = "userInputField";
+        userInputField.classList.add("userInputField");
+        userInputField.type = "text";
+        const checkBtn = document.createElement("button");
+        checkBtn.classList.add("checkBtn");
+        checkBtn.classList.add("btn");
+        const checkImg = document.createElement("img");
+        checkImg.src = "SVG/checkMark24.svg";
+        checkImg.classList.add("check");
+        checkBtn.appendChild(checkImg);
+        const crossBtn = document.createElement("button");
+        crossBtn.classList.add("crossBtn");
+        crossBtn.classList.add("btn");
+        const crossImg = document.createElement("img");
+        crossImg.src = "SVG/cross50.svg";
+        crossImg.classList.add("cross");
+        crossBtn.appendChild(crossImg);
+        userInputWrapper.appendChild(userInputField);
+        userInputWrapper.appendChild(checkBtn);
+        userInputWrapper.appendChild(crossBtn);
+        target.replaceWith(userInputWrapper);
+        userInputField.focus();
+        function finishEdit() {
+            const noteListItem = document.createElement("li");
+            let noteListItemContent = noteListItem.value;
+            noteListItem.textContent = userInputField.value;
+            noteListItem.classList.add("listElement");
+            userInputWrapper.replaceWith(noteListItem);
+            checkBtn.remove();
+            crossBtn.remove();
+        }
+        function stopEdit(noteListItemContent) {
+            const noteListItem = document.createElement("li");
+            noteListItem.textContent = noteListItemContent;
+            noteListItem.classList.add("listElement");
+            userInputField.replaceWith(noteListItem);
+            checkBtn.remove();
+            crossBtn.remove();
+        }
+        let isClickingBtn = false;
+        checkBtn.addEventListener("mousedown", () => {
+            isClickingBtn = true;
+            finishEdit();
+        });
+        crossBtn.addEventListener("mousedown", () => {
+            isClickingBtn = true;
+            stopEdit(noteListItemContent);
+        });
+        userInputField.addEventListener("keydown", (e) => {
+            if (!isClickingBtn) {
+                if (e.key === "Enter") {
+                    finishEdit();
+                }
+                if (e.key === "Escape") {
+                    console.log("Escape Pressed!");
+                    stopEdit(noteListItemContent);
+                }
+            }
+        });
+        userInputField.addEventListener("blur", () => {
+            if (!isClickingBtn) {
+                finishEdit();
+            }
+        });
     }
 }
 addBtn.addEventListener("click", (e) => {
@@ -73,8 +171,10 @@ function checkNodeListChildren() {
         emptyListMsg.style.display = "block";
     }
     else {
+        if (noteList.contains(emptyListMsg)) {
+            noteList.removeChild(emptyListMsg);
+        }
         emptyListMsg.style.display = "none";
-        noteList.removeChild(emptyListMsg);
     }
 }
 noteList.addEventListener("dblclick", (e) => {
@@ -90,6 +190,14 @@ noteList.addEventListener("dblclick", (e) => {
         target.classList.add("selectedItem");
         console.log("added class");
     }
+    if (isEditActive && target.classList.contains("selectedItem")) {
+        editBtnClickHandler(target);
+    }
 });
+function editBtnClickHandler(target) {
+    if (target.tagName !== "LI")
+        return;
+    Note.editNote(target);
+}
 export {};
 //# sourceMappingURL=index.js.map

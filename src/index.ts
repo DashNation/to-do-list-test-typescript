@@ -14,6 +14,30 @@ let noteCount: number = 0;
 let isEditActive: boolean = false;
 let isRemoveActive: boolean = false;
 
+// cSpell:disable-next-line
+//hotkeys um buttons oben zu aktivieren und zu deaktivieren
+window.addEventListener("keydown", (e: KeyboardEvent) => {
+  if (e.key.toLocaleLowerCase() === "e" && e.altKey) {
+    isEditActive = !isEditActive;
+    if (isEditActive) {
+      editBtn.classList.add("active");
+    } else {
+      editBtn.classList.remove("active");
+    }
+  }
+});
+
+window.addEventListener("keydown", (e: KeyboardEvent) => {
+  if (e.key.toLocaleLowerCase() === "r" && e.altKey) {
+    isRemoveActive = !isRemoveActive;
+    if (isRemoveActive) {
+      removeBtn.classList.add("active");
+    } else {
+      removeBtn.classList.remove("active");
+    }
+  }
+});
+
 class Note {
   note: string;
   id: number;
@@ -31,6 +55,100 @@ class Note {
       noteListItem.id = `${this.id}`;
       noteList.appendChild(noteListItem);
     }
+  }
+
+  static editNote(target: HTMLElement): void {
+    //cSpell: disable-next-line
+    //Wrapper der das InputFeld und die Buttons zusammen schön aligned
+    const userInputWrapper = document.createElement("div") as HTMLDivElement;
+    userInputWrapper.id = "userInputWrapper";
+    userInputWrapper.style.display = "flex";
+    userInputWrapper.style.flexDirection = "row";
+    userInputWrapper.style.justifyContent = "space-between";
+    userInputWrapper.style.gap = "0.05rem";
+    noteList.appendChild(userInputWrapper);
+    //cSpell: disable-next-line
+    //inputfield wird erstellt
+    const noteListItemContent = target.textContent || "";
+    const userInputField = document.createElement("input") as HTMLInputElement;
+    userInputField.value = noteListItemContent;
+    userInputField.id = "userInputField";
+    userInputField.classList.add("userInputField");
+    userInputField.type = "text";
+
+    // cSpell: disable-next-line
+    //erstellen der Buttons
+    //checkBtn
+    const checkBtn = document.createElement("button") as HTMLButtonElement;
+    checkBtn.classList.add("checkBtn");
+    checkBtn.classList.add("btn");
+    const checkImg = document.createElement("img") as HTMLImageElement;
+    checkImg.src = "SVG/checkMark24.svg";
+    checkImg.classList.add("check");
+    checkBtn.appendChild(checkImg);
+
+    //crossBtn
+    const crossBtn = document.createElement("button") as HTMLButtonElement;
+    crossBtn.classList.add("crossBtn");
+    crossBtn.classList.add("btn");
+    const crossImg = document.createElement("img");
+    crossImg.src = "SVG/cross50.svg";
+    crossImg.classList.add("cross");
+    crossBtn.appendChild(crossImg);
+
+    userInputWrapper.appendChild(userInputField);
+    userInputWrapper.appendChild(checkBtn);
+    userInputWrapper.appendChild(crossBtn);
+    target.replaceWith(userInputWrapper);
+    userInputField.focus();
+
+    function finishEdit() {
+      const noteListItem = document.createElement("li") as HTMLLIElement;
+      let noteListItemContent = noteListItem.value;
+      noteListItem.textContent = userInputField.value;
+      noteListItem.classList.add("listElement");
+      userInputWrapper.replaceWith(noteListItem);
+      checkBtn.remove();
+      crossBtn.remove();
+    }
+
+    function stopEdit(noteListItemContent: string) {
+      const noteListItem = document.createElement("li") as HTMLLIElement;
+      noteListItem.textContent = noteListItemContent;
+      noteListItem.classList.add("listElement");
+      userInputField.replaceWith(noteListItem);
+      checkBtn.remove();
+      crossBtn.remove();
+    }
+
+    let isClickingBtn = false;
+
+    checkBtn.addEventListener("mousedown", () => {
+      isClickingBtn = true;
+      finishEdit();
+    });
+
+    crossBtn.addEventListener("mousedown", () => {
+      isClickingBtn = true;
+      stopEdit(noteListItemContent);
+    });
+
+    userInputField.addEventListener("keydown", (e: KeyboardEvent) => {
+      if (!isClickingBtn) {
+        if (e.key === "Enter") {
+          finishEdit();
+        }
+        if (e.key === "Escape") {
+          console.log("Escape Pressed!");
+          stopEdit(noteListItemContent);
+        }
+      }
+    });
+    userInputField.addEventListener("blur", () => {
+      if (!isClickingBtn) {
+        finishEdit();
+      }
+    });
   }
 }
 
@@ -70,7 +188,7 @@ todoValueInputField.addEventListener("keyup", (e) => {
     ClickAddNoteHandler(e);
   }
 });
-
+//cSpell: disable-next-line
 //Funktion die bei einem Button click aufgerufen wird
 function ClickAddNoteHandler(event: Event) {
   //   console.log("add Button clicked!");
@@ -82,6 +200,8 @@ function ClickAddNoteHandler(event: Event) {
   }
 }
 
+//cSpell: disable-next-line
+// Conditions um zu bestimmen ob der "No thoughts collected Text" erscheint
 document.addEventListener("DOMContentLoaded", checkNodeListChildren);
 document.addEventListener("change", checkNodeListChildren);
 const emptyListMsg = document.createElement("p") as HTMLParagraphElement;
@@ -95,8 +215,10 @@ function checkNodeListChildren() {
     }
     emptyListMsg.style.display = "block";
   } else {
+    if (noteList.contains(emptyListMsg)) {
+      noteList.removeChild(emptyListMsg);
+    }
     emptyListMsg.style.display = "none";
-    noteList.removeChild(emptyListMsg);
   }
 }
 
@@ -113,4 +235,12 @@ noteList.addEventListener("dblclick", (e) => {
     target.classList.add("selectedItem");
     console.log("added class");
   }
+  if (isEditActive && target.classList.contains("selectedItem")) {
+    editBtnClickHandler(target);
+  }
 });
+
+function editBtnClickHandler(target: HTMLElement) {
+  if (target.tagName !== "LI") return;
+  Note.editNote(target);
+}

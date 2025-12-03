@@ -10,6 +10,12 @@
   --removeBtnBg: rgb(255, 47, 47);
   --redGlow: #ff5959;
   --scrollbarThumbColor: #ffffff;
+  --userInputFieldBg: #000000;
+  --userInputFieldTxt: #ffffff;
+  --userInputFieldBorder: #dddddd;
+  --userInputFieldGlowColor: #ffffff;
+  --checkMarkBtnBg: #ffffff;
+  --crossBtnBg: #f72828;
   background: var(--bgColor);
   color: var(--textColor);
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
@@ -127,6 +133,32 @@
   font-size: 1.2rem;
 }
 
+/* cSpell: disable-next-line */
+/* Hier sind die styles für den checkBtn und crossBtn die eingesetzt werden wenn man eine Notiz editiert */
+
+.checkBtn {
+  width: 4rem;
+  height: 2rem;
+  border: none;
+  background: var(--checkMarkBtnBg);
+  justify-content: center;
+  align-items: center;
+}
+
+.crossBtn {
+  width: 4rem;
+  height: 2rem;
+  border: none;
+  background: var(--crossBtnBg);
+  justify-content: center;
+  align-items: center;
+}
+
+.cross {
+  width: 24px;
+  height: 24px;
+}
+
 #noteList {
   align-self: center;
   width: 85%;
@@ -197,4 +229,28 @@
 /* Id I use to fill out the dots on the left side to show which one is selected */
 .selectedItem {
   list-style: disc;
+  font-weight: bold;
+}
+
+.userInputField {
+  min-height: 1.5rem;
+  min-width: 60%;
+  max-width: 90%;
+  background: var(--userInputFieldBg);
+  color: var(--userInputFieldTxt);
+  border-radius: 100px;
+  border-style: none;
+  border: 0.1rem solid var(--userInputFieldBorder);
+  padding-left: 1rem;
+  outline: none;
+  text-align: start;
+  cursor: pointer;
+  font-style: italic;
+  font-weight: 100;
+  transition: transform 0.5s, box-shadow 0.5s;
+}
+
+.userInputField:focus {
+  /* box-shadow: 0px 0.1rem 1rem -0.7rem var(--userInputFieldGlowColor) inset; */
+  transform: scale(1.05);
 }
