@@ -1,7 +1,3 @@
-//cSpell: disable
-//TODO: Ich möchte einbauen das wenn man die notes Editieren oder Löschen möchte das man den Editieren oder Löschen Knopf
-// TODO mit anclicken an und aus toggelt und dann im active toggle modus per doppelclick eine beliebige note löschen kann
-//cSpell: enable
 const addBtn = document.getElementById("addBtn");
 const editBtn = document.getElementById("editBtn");
 const removeBtn = document.getElementById("removeBtn");
@@ -10,8 +6,6 @@ const noteList = document.getElementById("noteList");
 let noteCount = 0;
 let isEditActive = false;
 let isRemoveActive = false;
-// cSpell:disable-next-line
-//hotkeys um buttons oben zu aktivieren und zu deaktivieren
 window.addEventListener("keydown", (e) => {
     if (e.key.toLocaleLowerCase() === "e" && e.altKey) {
         isEditActive = !isEditActive;
@@ -51,8 +45,6 @@ class Note {
         }
     }
     static editNote(target) {
-        //cSpell: disable-next-line
-        //Wrapper der das InputFeld und die Buttons zusammen schön aligned
         const userInputWrapper = document.createElement("div");
         userInputWrapper.id = "userInputWrapper";
         userInputWrapper.style.display = "flex";
@@ -60,17 +52,12 @@ class Note {
         userInputWrapper.style.justifyContent = "space-between";
         userInputWrapper.style.gap = "0.05rem";
         noteList.appendChild(userInputWrapper);
-        //cSpell: disable-next-line
-        //inputfield wird erstellt
         const noteListItemContent = target.textContent || "";
         const userInputField = document.createElement("input");
         userInputField.value = noteListItemContent;
         userInputField.id = "userInputField";
         userInputField.classList.add("userInputField");
         userInputField.type = "text";
-        // cSpell: disable-next-line
-        //erstellen der Buttons
-        //checkBtn
         const checkBtn = document.createElement("button");
         checkBtn.classList.add("checkBtn");
         checkBtn.classList.add("btn");
@@ -78,7 +65,6 @@ class Note {
         checkImg.src = "SVG/checkMark24.svg";
         checkImg.classList.add("check");
         checkBtn.appendChild(checkImg);
-        //crossBtn
         const crossBtn = document.createElement("button");
         crossBtn.classList.add("crossBtn");
         crossBtn.classList.add("btn");
@@ -135,16 +121,12 @@ class Note {
         });
     }
 }
-//Add Btn Event listener
 addBtn.addEventListener("click", (e) => {
     e.preventDefault();
     ClickAddNoteHandler(e);
 });
-//Edit Btn Event Listener
 editBtn.addEventListener("click", (e) => {
-    //   console.log("Edit Btn Clicked!");
     isEditActive = !isEditActive;
-    //   console.log(`EditBtnState: ${isEditActive}`);
     if (isEditActive) {
         editBtn.classList.add("active");
     }
@@ -152,11 +134,8 @@ editBtn.addEventListener("click", (e) => {
         editBtn.classList.remove("active");
     }
 });
-//Remove Btn Event Listener
 removeBtn.addEventListener("click", (e) => {
-    //   console.log("Remove Button Clicked!");
     isRemoveActive = !isRemoveActive;
-    //   console.log(`RemoveBtnState:${isRemoveActive}`);
     if (isRemoveActive) {
         removeBtn.classList.add("active");
     }
@@ -170,10 +149,7 @@ todoValueInputField.addEventListener("keyup", (e) => {
         ClickAddNoteHandler(e);
     }
 });
-//cSpell: disable-next-line
-//Funktion die bei einem Button click aufgerufen wird
 function ClickAddNoteHandler(event) {
-    //   console.log("add Button clicked!");
     if (todoValueInputField.value !== "") {
         let note = new Note(todoValueInputField.value);
         note.addNote();
@@ -181,8 +157,6 @@ function ClickAddNoteHandler(event) {
         checkNodeListChildren();
     }
 }
-//cSpell: disable-next-line
-// Conditions um zu bestimmen ob der "No thoughts collected Text" erscheint
 document.addEventListener("DOMContentLoaded", checkNodeListChildren);
 document.addEventListener("change", checkNodeListChildren);
 const emptyListMsg = document.createElement("p");
@@ -203,7 +177,6 @@ function checkNodeListChildren() {
         emptyListMsg.style.display = "none";
     }
 }
-//Giving noteList children events
 noteList.addEventListener("dblclick", (e) => {
     console.log("dblclick found!");
     const target = e.target;
