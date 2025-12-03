@@ -32,8 +32,10 @@ window.addEventListener("keydown", (e: KeyboardEvent) => {
     isRemoveActive = !isRemoveActive;
     if (isRemoveActive) {
       removeBtn.classList.add("active");
+      addRemoveNoteBtns();
     } else {
       removeBtn.classList.remove("active");
+      removeRemoveNoteBtns();
     }
   }
 });
@@ -52,9 +54,11 @@ class Note {
       const noteListItemWrapper = document.createElement(
         "div"
       ) as HTMLDivElement;
-      noteListItemWrapper.id = "noteListItemWrapper";
+      noteListItemWrapper.classList.add("noteListItemWrapper");
       noteListItemWrapper.style.display = "flex";
       noteListItemWrapper.style.flexDirection = "row";
+      noteListItemWrapper.style.justifyContent = "start";
+      noteListItemWrapper.style.alignItems = "center";
       noteListItemWrapper.style.width = "100%";
       noteListItemWrapper.style.height = "100%";
       noteList.appendChild(noteListItemWrapper);
@@ -74,6 +78,7 @@ class Note {
     userInputWrapper.id = "userInputWrapper";
     userInputWrapper.style.display = "flex";
     userInputWrapper.style.flexDirection = "row";
+    userInputWrapper.style.alignItems = "center";
     userInputWrapper.style.justifyContent = "space-between";
     userInputWrapper.style.gap = "0.05rem";
     noteList.appendChild(userInputWrapper);
@@ -187,8 +192,10 @@ removeBtn.addEventListener("click", (e) => {
   //   console.log(`RemoveBtnState:${isRemoveActive}`);
   if (isRemoveActive) {
     removeBtn.classList.add("active");
+    addRemoveNoteBtns();
   } else {
     removeBtn.classList.remove("active");
+    removeRemoveNoteBtns();
   }
 });
 
@@ -213,12 +220,14 @@ function ClickAddNoteHandler(event: Event) {
 //cSpell: disable-next-line
 // Conditions um zu bestimmen ob der "No thoughts collected Text" erscheint
 document.addEventListener("DOMContentLoaded", checkNodeListChildren);
-document.addEventListener("change", checkNodeListChildren);
-const emptyListMsg = document.createElement("p") as HTMLParagraphElement;
+document.addEventListener("change", checkNodeListChildren); // cSpell: disable-next-line
+let emptyListMsg = document.createElement("p") as HTMLParagraphElement; // erste eklaration des filler texts
 function checkNodeListChildren() {
   const listItems = noteList.querySelectorAll("li");
   if (listItems.length === 0) {
     if (!noteList.contains(emptyListMsg)) {
+      //cSpell: disable-next-line
+      emptyListMsg = document.createElement("p") as HTMLParagraphElement; // zweite deklaration die deklariert wird wenn die Liste wieder leer wird
       emptyListMsg.innerHTML = "No thoughts collected...";
       emptyListMsg.id = "emptyListTxt";
       noteList.appendChild(emptyListMsg);
@@ -251,4 +260,43 @@ noteList.addEventListener("dblclick", (e) => {
 function editBtnClickHandler(target: HTMLElement) {
   if (target.tagName !== "LI") return;
   Note.editNote(target);
+}
+
+function removeNoteBtnClickHandler(target: HTMLElement) {
+  console.log("removeNoteBtn pressed!");
+  const noteListItemWrapper = target.closest(".noteListItemWrapper");
+  if (!noteListItemWrapper) return;
+  noteListItemWrapper.remove();
+}
+
+function addRemoveNoteBtns() {
+  Array.from(noteList.children).forEach((child) => {
+    const removeNoteBtn = document.createElement("button") as HTMLButtonElement;
+    removeNoteBtn.classList.add("btn");
+    removeNoteBtn.classList.add("removeNoteBtn");
+    removeNoteBtn.style.justifyContent = "center";
+    removeBtn.style.alignItems = "center";
+    const img = document.createElement("img") as HTMLImageElement;
+    img.src = "SVG/minus.svg";
+    img.classList.add("minus");
+    removeNoteBtn.appendChild(img);
+    child.appendChild(removeNoteBtn);
+    removeNoteBtn.addEventListener("click", (e) => {
+      const target = e.target as HTMLElement;
+      if (!target) return;
+      const noteListItemWrapper = target.closest(".noteListItemWrapper");
+      if (!noteListItemWrapper) return;
+      noteListItemWrapper.remove();
+      checkNodeListChildren();
+    });
+  });
+}
+
+function removeRemoveNoteBtns() {
+  Array.from(noteList.children).forEach((child) => {
+    const removeNoteBtn = child.querySelector(".removeNoteBtn");
+    if (removeNoteBtn) {
+      removeNoteBtn.remove();
+    }
+  });
 }

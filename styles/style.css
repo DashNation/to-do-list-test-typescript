@@ -7,7 +7,7 @@
   --innerShadowColor: white;
   --outerShadowColor: white;
   --emptyListTxt: white;
-  --removeBtnBg: rgb(255, 47, 47);
+  --removeBtnBg: #ff2f2f;
   --redGlow: #ff5959;
   --scrollbarThumbColor: #ffffff;
   --userInputFieldBg: #000000;
@@ -133,6 +133,25 @@
   font-size: 1.2rem;
 }
 
+.removeNoteBtn {
+  display: flex;
+  width: 2.5rem;
+  height: 1rem;
+  justify-content: center;
+  align-items: center;
+  background: transparent;
+  border: 0.12rem solid var(--removeBtnBg);
+}
+
+.removeNoteBtn:hover {
+  box-shadow: 0rem -0.5rem 2rem -1.4rem var(--removeBtnBg) inset;
+}
+
+.minus {
+  width: 1rem;
+  height: 1rem;
+}
+
 /* cSpell: disable-next-line */
 /* Hier sind die styles für den checkBtn und crossBtn die eingesetzt werden wenn man eine Notiz editiert */
 
@@ -181,6 +200,7 @@
   font-weight: 100;
   user-select: none;
   -moz-user-select: none;
+  gap: 0.2rem;
   border: 1px var(--borderColor) solid;
   transition: box-shadow 0.5s, transform 0.5s;
 }
@@ -195,7 +215,7 @@
 }
 
 #noteList:hover {
-  box-shadow: 0rem -0.5rem 5.5rem -4.8rem var(--innerShadowColor) inset;
+  box-shadow: 0rem 0rem 5.5rem -5.5rem var(--innerShadowColor) inset;
   transform: scale(1.01);
 }
 

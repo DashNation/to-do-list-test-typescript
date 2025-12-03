@@ -22,9 +22,11 @@ window.addEventListener("keydown", (e) => {
         isRemoveActive = !isRemoveActive;
         if (isRemoveActive) {
             removeBtn.classList.add("active");
+            addRemoveNoteBtns();
         }
         else {
             removeBtn.classList.remove("active");
+            removeRemoveNoteBtns();
         }
     }
 });
@@ -38,9 +40,11 @@ class Note {
     addNote() {
         if (this.note !== "") {
             const noteListItemWrapper = document.createElement("div");
-            noteListItemWrapper.id = "noteListItemWrapper";
+            noteListItemWrapper.classList.add("noteListItemWrapper");
             noteListItemWrapper.style.display = "flex";
             noteListItemWrapper.style.flexDirection = "row";
+            noteListItemWrapper.style.justifyContent = "start";
+            noteListItemWrapper.style.alignItems = "center";
             noteListItemWrapper.style.width = "100%";
             noteListItemWrapper.style.height = "100%";
             noteList.appendChild(noteListItemWrapper);
@@ -56,6 +60,7 @@ class Note {
         userInputWrapper.id = "userInputWrapper";
         userInputWrapper.style.display = "flex";
         userInputWrapper.style.flexDirection = "row";
+        userInputWrapper.style.alignItems = "center";
         userInputWrapper.style.justifyContent = "space-between";
         userInputWrapper.style.gap = "0.05rem";
         noteList.appendChild(userInputWrapper);
@@ -145,9 +150,11 @@ removeBtn.addEventListener("click", (e) => {
     isRemoveActive = !isRemoveActive;
     if (isRemoveActive) {
         removeBtn.classList.add("active");
+        addRemoveNoteBtns();
     }
     else {
         removeBtn.classList.remove("active");
+        removeRemoveNoteBtns();
     }
 });
 todoValueInputField.addEventListener("keyup", (e) => {
@@ -166,11 +173,12 @@ function ClickAddNoteHandler(event) {
 }
 document.addEventListener("DOMContentLoaded", checkNodeListChildren);
 document.addEventListener("change", checkNodeListChildren);
-const emptyListMsg = document.createElement("p");
+let emptyListMsg = document.createElement("p");
 function checkNodeListChildren() {
     const listItems = noteList.querySelectorAll("li");
     if (listItems.length === 0) {
         if (!noteList.contains(emptyListMsg)) {
+            emptyListMsg = document.createElement("p");
             emptyListMsg.innerHTML = "No thoughts collected...";
             emptyListMsg.id = "emptyListTxt";
             noteList.appendChild(emptyListMsg);
@@ -203,6 +211,45 @@ function editBtnClickHandler(target) {
     if (target.tagName !== "LI")
         return;
     Note.editNote(target);
+}
+function removeNoteBtnClickHandler(target) {
+    console.log("removeNoteBtn pressed!");
+    const noteListItemWrapper = target.closest(".noteListItemWrapper");
+    if (!noteListItemWrapper)
+        return;
+    noteListItemWrapper.remove();
+}
+function addRemoveNoteBtns() {
+    Array.from(noteList.children).forEach((child) => {
+        const removeNoteBtn = document.createElement("button");
+        removeNoteBtn.classList.add("btn");
+        removeNoteBtn.classList.add("removeNoteBtn");
+        removeNoteBtn.style.justifyContent = "center";
+        removeBtn.style.alignItems = "center";
+        const img = document.createElement("img");
+        img.src = "SVG/minus.svg";
+        img.classList.add("minus");
+        removeNoteBtn.appendChild(img);
+        child.appendChild(removeNoteBtn);
+        removeNoteBtn.addEventListener("click", (e) => {
+            const target = e.target;
+            if (!target)
+                return;
+            const noteListItemWrapper = target.closest(".noteListItemWrapper");
+            if (!noteListItemWrapper)
+                return;
+            noteListItemWrapper.remove();
+            checkNodeListChildren();
+        });
+    });
+}
+function removeRemoveNoteBtns() {
+    Array.from(noteList.children).forEach((child) => {
+        const removeNoteBtn = child.querySelector(".removeNoteBtn");
+        if (removeNoteBtn) {
+            removeNoteBtn.remove();
+        }
+    });
 }
 export {};
 //# sourceMappingURL=index.js.map
