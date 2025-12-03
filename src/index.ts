@@ -32,8 +32,10 @@ window.addEventListener("keydown", (e: KeyboardEvent) => {
     isRemoveActive = !isRemoveActive;
     if (isRemoveActive) {
       removeBtn.classList.add("active");
+      addRemoveNoteBtns();
     } else {
       removeBtn.classList.remove("active");
+      removeRemoveNoteBtns();
     }
   }
 });
@@ -55,6 +57,8 @@ class Note {
       noteListItemWrapper.id = "noteListItemWrapper";
       noteListItemWrapper.style.display = "flex";
       noteListItemWrapper.style.flexDirection = "row";
+      noteListItemWrapper.style.justifyContent = "start";
+      noteListItemWrapper.style.alignItems = "center";
       noteListItemWrapper.style.width = "100%";
       noteListItemWrapper.style.height = "100%";
       noteList.appendChild(noteListItemWrapper);
@@ -74,6 +78,7 @@ class Note {
     userInputWrapper.id = "userInputWrapper";
     userInputWrapper.style.display = "flex";
     userInputWrapper.style.flexDirection = "row";
+    userInputWrapper.style.alignItems = "center";
     userInputWrapper.style.justifyContent = "space-between";
     userInputWrapper.style.gap = "0.05rem";
     noteList.appendChild(userInputWrapper);
@@ -187,8 +192,10 @@ removeBtn.addEventListener("click", (e) => {
   //   console.log(`RemoveBtnState:${isRemoveActive}`);
   if (isRemoveActive) {
     removeBtn.classList.add("active");
+    addRemoveNoteBtns();
   } else {
     removeBtn.classList.remove("active");
+    removeRemoveNoteBtns();
   }
 });
 
@@ -251,4 +258,28 @@ noteList.addEventListener("dblclick", (e) => {
 function editBtnClickHandler(target: HTMLElement) {
   if (target.tagName !== "LI") return;
   Note.editNote(target);
+}
+
+function addRemoveNoteBtns() {
+  Array.from(noteList.children).forEach((child) => {
+    const removeNoteBtn = document.createElement("button") as HTMLButtonElement;
+    removeNoteBtn.classList.add("btn");
+    removeNoteBtn.classList.add("removeNoteBtn");
+    removeNoteBtn.style.justifyContent = "center";
+    removeBtn.style.alignItems = "center";
+    const img = document.createElement("img") as HTMLImageElement;
+    img.src = "SVG/minus.svg";
+    img.classList.add("minus");
+    removeNoteBtn.appendChild(img);
+    child.appendChild(removeNoteBtn);
+  });
+}
+
+function removeRemoveNoteBtns() {
+  Array.from(noteList.children).forEach((child) => {
+    const removeNoteBtn = child.querySelector(".removeNoteBtn");
+    if (removeNoteBtn) {
+      removeNoteBtn.remove();
+    }
+  });
 }
