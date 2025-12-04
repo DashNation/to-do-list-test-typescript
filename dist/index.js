@@ -44,7 +44,7 @@ class Note {
     this.id = noteCount++;
   }
   addNote() {
-    if (this.note !== "") {
+    if (this.note) {
       const noteListItemWrapper = document.createElement("div");
       noteListItemWrapper.classList.add("noteListItemWrapper");
       noteListItemWrapper.style.display = "flex";
@@ -58,7 +58,7 @@ class Note {
       noteListItem.classList.add("listElement");
       noteListItem.innerHTML = this.note;
       noteListItem.id = `${this.id}`;
-      storage.add(`note${this.id}`, this.note);
+      storage.add(`${this.id}`, this.note);
       noteListItemWrapper.appendChild(noteListItem);
     }
   }
@@ -101,8 +101,9 @@ class Note {
     function finishEdit() {
       const noteListItem = document.createElement("li");
       let noteListItemContent = noteListItem.value;
-      storage.edit(`note${targetID}`, userInputField.value);
+      storage.edit(`${targetID}`, userInputField.value);
       noteListItem.textContent = userInputField.value;
+      noteListItem.id = targetID;
       noteListItem.classList.add("listElement");
       userInputWrapper.replaceWith(noteListItem);
       checkBtn.remove();
@@ -242,7 +243,7 @@ function addRemoveNoteBtns() {
       const note = noteListItemWrapper.querySelector(".listElement");
       const noteID = note?.id;
       console.log("noteID when deleting stuff", noteID);
-      storage.remove(`note${noteID}`);
+      storage.remove(`${noteID}`);
       noteListItemWrapper.remove();
       checkNodeListChildren();
     });
@@ -256,11 +257,11 @@ function removeRemoveNoteBtns() {
     }
   });
 }
-document.addEventListener("DOMContentLoaded", () => {
-  loadNotesFromLocalStorage();
+document.addEventListener("DOMContentLoaded", (e) => {
+  loadLocalStorageKeys();
 });
-function loadNotesFromLocalStorage() {
-  const notes = storage.getFilteredBy("note");
+function loadLocalStorageKeys() {
+  const notes = storage.loadLocalStorage();
   if (notes.length !== 0) {
     for (let i = 0; i < notes.length; i++) {
       console.log(storage.get(notes[i]));

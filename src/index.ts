@@ -54,7 +54,7 @@ class Note {
   }
 
   addNote(): void {
-    if (this.note !== "") {
+    if (this.note) {
       const noteListItemWrapper = document.createElement(
         "div"
       ) as HTMLDivElement;
@@ -71,7 +71,7 @@ class Note {
       noteListItem.classList.add("listElement");
       noteListItem.innerHTML = this.note;
       noteListItem.id = `${this.id}`;
-      storage.add(`note${this.id}`, this.note);
+      storage.add(`${this.id}`, this.note);
       noteListItemWrapper.appendChild(noteListItem);
     }
   }
@@ -127,8 +127,9 @@ class Note {
     function finishEdit() {
       const noteListItem = document.createElement("li") as HTMLLIElement;
       let noteListItemContent = noteListItem.value;
-      storage.edit(`note${targetID}`, userInputField.value);
+      storage.edit(`${targetID}`, userInputField.value);
       noteListItem.textContent = userInputField.value;
+      noteListItem.id = targetID;
       noteListItem.classList.add("listElement");
       userInputWrapper.replaceWith(noteListItem);
       checkBtn.remove();
@@ -297,7 +298,7 @@ function addRemoveNoteBtns() {
       const note = noteListItemWrapper.querySelector(".listElement");
       const noteID = note?.id;
       console.log("noteID when deleting stuff", noteID);
-      storage.remove(`note${noteID}`);
+      storage.remove(`${noteID}`);
       //localStorage remove stuff ends here
       noteListItemWrapper.remove();
       checkNodeListChildren();
@@ -314,18 +315,21 @@ function removeRemoveNoteBtns() {
   });
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  loadNotesFromLocalStorage();
+document.addEventListener("keydown", (e) => {
+  if (e.key === "p") {
+    loadLocalStorageKeys();
+  }
 });
-//Testing a function I made
-function loadNotesFromLocalStorage() {
-  const notes: number[] = storage.getFilteredBy("note");
+
+function loadLocalStorageKeys() {
+  const notes: any[] = storage.loadLocalStorage();
   if (notes.length !== 0) {
     for (let i = 0; i < notes.length; i++) {
       console.log(storage.get(notes[i]));
       let noteValue: string = storage.get(notes[i]);
       todoValueInputField.value = noteValue;
       ClickAddNoteHandler();
+      //! Testen ob der Code funktioniert
     }
   }
 }
