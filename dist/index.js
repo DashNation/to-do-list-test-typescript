@@ -26,15 +26,18 @@ window.addEventListener("keydown", (e) => {
       if (!isFillerTextVisible) {
         addRemoveNoteBtns();
       } else {
-        closeRemoveBtns();
+        closeRemoveNoteBtns();
       }
     } else {
       removeBtn.classList.remove("active");
       if (!isFillerTextVisible) {
-        closeRemoveBtns();
+        closeRemoveNoteBtns();
       }
     }
   }
+});
+document.addEventListener("change", () => {
+  todoValueInputField.placeholder = "enter your thoughts here";
 });
 class Note {
   note;
@@ -163,11 +166,11 @@ removeBtn.addEventListener("click", (e) => {
     if (!isFillerTextVisible) {
       addRemoveNoteBtns();
     } else {
-      closeRemoveBtns();
+      closeRemoveNoteBtns();
     }
   } else {
     removeBtn.classList.remove("active");
-    closeRemoveBtns();
+    closeRemoveNoteBtns();
   }
 });
 todoValueInputField.addEventListener("keyup", (e) => {
@@ -249,7 +252,7 @@ function addRemoveNoteBtns() {
     });
   });
 }
-function closeRemoveBtns() {
+function closeRemoveNoteBtns() {
   Array.from(noteList.children).forEach((child) => {
     const removeNoteBtn = child.querySelector(".removeNoteBtn");
     if (removeNoteBtn) {
@@ -257,10 +260,8 @@ function closeRemoveBtns() {
     }
   });
 }
-document.addEventListener("keydown", (e) => {
-  if (e.key === "p") {
-    loadLocalStorageKeys();
-  }
+document.addEventListener("DOMContentLoaded", () => {
+  loadLocalStorageKeys();
 });
 function loadLocalStorageKeys() {
   const notes = storage.loadLocalStorage();
@@ -273,4 +274,25 @@ function loadLocalStorageKeys() {
     }
   }
 }
+todoValueInputField.addEventListener("keydown", (e) => {
+  if (e.key === "Enter" && todoValueInputField.value == "//reset") {
+    reset();
+  }
+});
+function reset() {
+  storage.clear();
+  todoValueInputField.value = "";
+  todoValueInputField.placeholder = "reset successful!";
+  todoValueInputField.style.color = "#2cff2cff";
+  const children = noteList.querySelectorAll(".noteListItemWrapper");
+  children.forEach((child) => child.remove());
+  checkNodeListChildren();
+}
+todoValueInputField.addEventListener("input", () => {
+  if (todoValueInputField.value === "//reset") {
+    todoValueInputField.style.color = "#ff1818ff";
+  } else {
+    todoValueInputField.style.color = "#ffffff";
+  }
+});
 //# sourceMappingURL=index.js.map

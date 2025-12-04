@@ -1,4 +1,5 @@
 import * as storage from "./storage";
+//* if you type //reset into the todoValueInputField you reset everything (this also gets indicated by the message in the placeholder after resetting)
 
 const addBtn = document.getElementById("addBtn") as HTMLButtonElement;
 const editBtn = document.getElementById("editBtn") as HTMLButtonElement;
@@ -42,6 +43,11 @@ window.addEventListener("keydown", (e: KeyboardEvent) => {
       }
     }
   }
+});
+
+//default placeholder
+document.addEventListener("change", () => {
+  todoValueInputField.placeholder = "enter your thoughts here";
 });
 
 class Note {
@@ -315,10 +321,8 @@ function closeRemoveNoteBtns() {
   });
 }
 
-document.addEventListener("keydown", (e) => {
-  if (e.key === "p") {
-    loadLocalStorageKeys();
-  }
+document.addEventListener("DOMContentLoaded", () => {
+  loadLocalStorageKeys();
 });
 
 function loadLocalStorageKeys() {
@@ -329,9 +333,33 @@ function loadLocalStorageKeys() {
       let noteValue: string = storage.get(notes[i]);
       todoValueInputField.value = noteValue;
       ClickAddNoteHandler();
-      //! Testen ob der Code funktioniert
     }
   }
 }
+
+// reset eventListener and functions
+todoValueInputField.addEventListener("keydown", (e) => {
+  if (e.key === "Enter" && todoValueInputField.value == "//reset") {
+    reset();
+  }
+});
+
+function reset() {
+  storage.clear();
+  todoValueInputField.value = "";
+  todoValueInputField.placeholder = "reset successful!";
+  todoValueInputField.style.color = "#2cff2cff";
+  const children = noteList.querySelectorAll(".noteListItemWrapper");
+  children.forEach((child) => child.remove());
+  checkNodeListChildren();
+}
+//reset color indication
+todoValueInputField.addEventListener("input", () => {
+  if (todoValueInputField.value === "//reset") {
+    todoValueInputField.style.color = "#ff1818ff";
+  } else {
+    todoValueInputField.style.color = "#ffffff";
+  }
+});
 
 //! DON'T FORGET TO ADD .JS TO THE IMPORTS IN THE INDEX.JS FILE
