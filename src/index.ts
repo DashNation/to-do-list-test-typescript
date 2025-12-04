@@ -293,6 +293,12 @@ function addRemoveNoteBtns() {
       if (!target) return;
       const noteListItemWrapper = target.closest(".noteListItemWrapper");
       if (!noteListItemWrapper) return;
+      //Getting the ID and removing it
+      const note = noteListItemWrapper.querySelector(".listElement");
+      const noteID = note?.id;
+      console.log("noteID when deleting stuff", noteID);
+      storage.remove(`note${noteID}`);
+      //localStorage remove stuff ends here
       noteListItemWrapper.remove();
       checkNodeListChildren();
     });
