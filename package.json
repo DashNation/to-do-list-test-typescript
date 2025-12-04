@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "build": "tsc && uglifyjs dist/index.js -o dist/index.min.js -c -m",
-    "short": "uglifyjs dist/index.js -o dist/index.min.js -c -m"
+    "c": "uglifyjs dist/index.js -o dist/index.min.js -c -m"
   },
   "devDependencies": {
     "uglify-js": "^3.19.3",

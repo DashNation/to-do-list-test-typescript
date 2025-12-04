@@ -10,8 +10,8 @@ export function edit(key: string, value: any): void {
 }
 
 export function get(key: any): any {
-  const parsedContent = JSON.parse(window.localStorage.getItem(key) || "{}");
-  return parsedContent;
+  const item = window.localStorage.getItem(key);
+  return item ? JSON.parse(item) : null;
 }
 
 export function clear(): void {
@@ -27,5 +27,5 @@ export function getFilteredBy(searchWord: string): any {
     const numB = parseInt(b.replace(/\D/g, ""), 10);
     return numA - numB;
   });
-  console.log(sortedKeys);
+  return sortedKeys;
 }

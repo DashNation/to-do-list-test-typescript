@@ -142,7 +142,7 @@ class Note {
 }
 addBtn.addEventListener("click", (e) => {
   e.preventDefault();
-  ClickAddNoteHandler(e);
+  ClickAddNoteHandler();
 });
 editBtn.addEventListener("click", (e) => {
   isEditActive = !isEditActive;
@@ -169,10 +169,10 @@ removeBtn.addEventListener("click", (e) => {
 todoValueInputField.addEventListener("keyup", (e) => {
   if (e.key === "Enter") {
     e.preventDefault();
-    ClickAddNoteHandler(e);
+    ClickAddNoteHandler();
   }
 });
-function ClickAddNoteHandler(event) {
+function ClickAddNoteHandler() {
   if (todoValueInputField.value !== "") {
     let note = new Note(todoValueInputField.value);
     note.addNote();
@@ -251,10 +251,18 @@ function removeRemoveNoteBtns() {
 }
 document.addEventListener("keydown", (e) => {
   if (e.key.toLocaleLowerCase() === "p") {
-    readOutNotes();
+    loadNotesFromLocalStorage();
   }
 });
-function readOutNotes() {
-  storage.getFilteredBy("note");
+function loadNotesFromLocalStorage() {
+  const notes = storage.getFilteredBy("note");
+  if (notes.length !== 0) {
+    for (let i = 0; i < notes.length; i++) {
+      console.log(storage.get(notes[i]));
+      let noteValue = storage.get(notes[i]);
+      todoValueInputField.value = noteValue;
+      ClickAddNoteHandler();
+    }
+  }
 }
 //# sourceMappingURL=index.js.map

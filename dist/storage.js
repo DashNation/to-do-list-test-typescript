@@ -8,8 +8,8 @@ export function edit(key, value) {
     window.localStorage.setItem(key, JSON.stringify(value));
 }
 export function get(key) {
-    const parsedContent = JSON.parse(window.localStorage.getItem(key) || "{}");
-    return parsedContent;
+    const item = window.localStorage.getItem(key);
+    return item ? JSON.parse(item) : null;
 }
 export function clear() {
     window.localStorage.clear();
@@ -21,6 +21,6 @@ export function getFilteredBy(searchWord) {
         const numB = parseInt(b.replace(/\D/g, ""), 10);
         return numA - numB;
     });
-    console.log(sortedKeys);
+    return sortedKeys;
 }
 //# sourceMappingURL=storage.js.map

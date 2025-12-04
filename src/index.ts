@@ -175,7 +175,7 @@ class Note {
 //Add Btn Event listener
 addBtn.addEventListener("click", (e) => {
   e.preventDefault();
-  ClickAddNoteHandler(e);
+  ClickAddNoteHandler();
 });
 
 //Edit Btn Event Listener
@@ -211,12 +211,12 @@ removeBtn.addEventListener("click", (e) => {
 todoValueInputField.addEventListener("keyup", (e) => {
   if (e.key === "Enter") {
     e.preventDefault();
-    ClickAddNoteHandler(e);
+    ClickAddNoteHandler();
   }
 });
 //cSpell: disable-next-line
 //Funktion die bei einem Button click aufgerufen wird
-function ClickAddNoteHandler(event: Event) {
+function ClickAddNoteHandler() {
   //   console.log("add Button clicked!");
   if (todoValueInputField.value !== "") {
     let note = new Note(todoValueInputField.value);
@@ -307,10 +307,18 @@ function removeRemoveNoteBtns() {
 
 document.addEventListener("keydown", (e) => {
   if (e.key.toLocaleLowerCase() === "p") {
-    readOutNotes();
+    loadNotesFromLocalStorage();
   }
 });
 //Testing a function I made
-function readOutNotes() {
-  storage.getFilteredBy("note");
+function loadNotesFromLocalStorage() {
+  const notes: number[] = storage.getFilteredBy("note");
+  if (notes.length !== 0) {
+    for (let i = 0; i < notes.length; i++) {
+      console.log(storage.get(notes[i]));
+      let noteValue: string = storage.get(notes[i]);
+      todoValueInputField.value = noteValue;
+      ClickAddNoteHandler();
+    }
+  }
 }
