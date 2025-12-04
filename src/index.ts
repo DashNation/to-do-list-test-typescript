@@ -79,6 +79,8 @@ class Note {
   static editNote(target: HTMLElement): void {
     //cSpell: disable-next-line
     //Wrapper der das InputFeld und die Buttons zusammen schön aligned
+    const targetID = target.id;
+    console.log("targetID", targetID);
     const userInputWrapper = document.createElement("div") as HTMLDivElement;
     userInputWrapper.id = "userInputWrapper";
     userInputWrapper.style.display = "flex";
@@ -125,6 +127,7 @@ class Note {
     function finishEdit() {
       const noteListItem = document.createElement("li") as HTMLLIElement;
       let noteListItemContent = noteListItem.value;
+      storage.edit(`note${targetID}`, userInputField.value);
       noteListItem.textContent = userInputField.value;
       noteListItem.classList.add("listElement");
       userInputWrapper.replaceWith(noteListItem);
@@ -320,3 +323,5 @@ function loadNotesFromLocalStorage() {
     }
   }
 }
+
+//! DON'T FORGET TO ADD .JS TO THE IMPORTS IN THE INDEX.JS FILE

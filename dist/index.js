@@ -63,6 +63,8 @@ class Note {
     }
   }
   static editNote(target) {
+    const targetID = target.id;
+    console.log("targetID", targetID);
     const userInputWrapper = document.createElement("div");
     userInputWrapper.id = "userInputWrapper";
     userInputWrapper.style.display = "flex";
@@ -99,6 +101,7 @@ class Note {
     function finishEdit() {
       const noteListItem = document.createElement("li");
       let noteListItemContent = noteListItem.value;
+      storage.edit(`note${targetID}`, userInputField.value);
       noteListItem.textContent = userInputField.value;
       noteListItem.classList.add("listElement");
       userInputWrapper.replaceWith(noteListItem);
