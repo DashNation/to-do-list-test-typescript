@@ -249,10 +249,8 @@ function removeRemoveNoteBtns() {
     }
   });
 }
-document.addEventListener("keydown", (e) => {
-  if (e.key.toLocaleLowerCase() === "p") {
-    loadNotesFromLocalStorage();
-  }
+document.addEventListener("DOMContentLoaded", () => {
+  loadNotesFromLocalStorage();
 });
 function loadNotesFromLocalStorage() {
   const notes = storage.getFilteredBy("note");
