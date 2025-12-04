@@ -45,11 +45,6 @@ window.addEventListener("keydown", (e: KeyboardEvent) => {
   }
 });
 
-//default placeholder
-document.addEventListener("change", () => {
-  todoValueInputField.placeholder = "enter your thoughts here";
-});
-
 class Note {
   note: string;
   id: number;
@@ -361,6 +356,7 @@ todoValueInputField.addEventListener("input", () => {
     todoValueInputField.style.color = "#ff1818ff";
   } else {
     todoValueInputField.style.color = "#ffffff";
+    todoValueInputField.placeholder = "enter your thoughts here";
   }
 });
 

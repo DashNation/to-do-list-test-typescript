@@ -36,9 +36,6 @@ window.addEventListener("keydown", (e) => {
     }
   }
 });
-document.addEventListener("change", () => {
-  todoValueInputField.placeholder = "enter your thoughts here";
-});
 class Note {
   note;
   id;
@@ -295,6 +292,7 @@ todoValueInputField.addEventListener("input", () => {
     todoValueInputField.style.color = "#ff1818ff";
   } else {
     todoValueInputField.style.color = "#ffffff";
+    todoValueInputField.placeholder = "enter your thoughts here";
   }
 });
 //# sourceMappingURL=index.js.map
