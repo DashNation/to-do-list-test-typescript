@@ -5,17 +5,19 @@
 # FEATURES
 
 - Press ENTER while being focused on the inputfield to add a Note (_*or press the add note button*_)
-  ![](./IMGS/Main_img.png)
+  <img src="./IMGS/Main_img.png" width="300" height="600">
 
 - While being in edit mode double click a note to edit it
-  ![](./IMGS/Edit_img.png)
+  <img src="./IMGS/Edit_img.png" width="300" height="600">
 
 - While being in remove mode press the remove button next to the note you want to delete
-  ![](./IMGS/Delete_img.png)
+  <img src="./IMGS/Delete_img.png" width="300" height="600">
+
 - If you want to reset the entire website just type **"//reset"** into the inputField
-  ![RESET_IMG](./IMGS/Reset_img.png)
+  <img src="./IMGS/Reset_img.png" width="300" height="600">
+
 - If you do not have any toggle on you can double click a note to highlight it
-  ![Note_1_is_highlighted](./IMGS/Highlighted_img.png)
+  <img src="./IMGS/Highlighted_img.png" width="300"height="600">
 
 ## HOTKEYS
 
