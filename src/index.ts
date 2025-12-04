@@ -100,6 +100,8 @@ class Note {
     const noteListItemContent = target.textContent || "";
     const userInputField = document.createElement("input") as HTMLInputElement;
     userInputField.value = noteListItemContent;
+    userInputField.focus();
+    userInputField.select();
     userInputField.id = "userInputField";
     userInputField.classList.add("userInputField");
     userInputField.type = "text";
