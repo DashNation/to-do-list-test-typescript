@@ -33,12 +33,12 @@ window.addEventListener("keydown", (e: KeyboardEvent) => {
       if (!isFillerTextVisible) {
         addRemoveNoteBtns();
       } else {
-        removeRemoveNoteBtns();
+        closeRemoveNoteBtns();
       }
     } else {
       removeBtn.classList.remove("active");
       if (!isFillerTextVisible) {
-        removeRemoveNoteBtns();
+        closeRemoveNoteBtns();
       }
     }
   }
@@ -204,11 +204,11 @@ removeBtn.addEventListener("click", (e) => {
     if (!isFillerTextVisible) {
       addRemoveNoteBtns();
     } else {
-      removeRemoveNoteBtns();
+      closeRemoveNoteBtns();
     }
   } else {
     removeBtn.classList.remove("active");
-    removeRemoveNoteBtns();
+    closeRemoveNoteBtns();
   }
 });
 
@@ -306,7 +306,7 @@ function addRemoveNoteBtns() {
   });
 }
 
-function removeRemoveNoteBtns() {
+function closeRemoveNoteBtns() {
   Array.from(noteList.children).forEach((child) => {
     const removeNoteBtn = child.querySelector(".removeNoteBtn");
     if (removeNoteBtn) {

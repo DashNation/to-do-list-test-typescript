@@ -26,12 +26,12 @@ window.addEventListener("keydown", (e) => {
       if (!isFillerTextVisible) {
         addRemoveNoteBtns();
       } else {
-        removeRemoveNoteBtns();
+        closeRemoveBtns();
       }
     } else {
       removeBtn.classList.remove("active");
       if (!isFillerTextVisible) {
-        removeRemoveNoteBtns();
+        closeRemoveBtns();
       }
     }
   }
@@ -163,11 +163,11 @@ removeBtn.addEventListener("click", (e) => {
     if (!isFillerTextVisible) {
       addRemoveNoteBtns();
     } else {
-      removeRemoveNoteBtns();
+      closeRemoveBtns();
     }
   } else {
     removeBtn.classList.remove("active");
-    removeRemoveNoteBtns();
+    closeRemoveBtns();
   }
 });
 todoValueInputField.addEventListener("keyup", (e) => {
@@ -249,7 +249,7 @@ function addRemoveNoteBtns() {
     });
   });
 }
-function removeRemoveNoteBtns() {
+function closeRemoveBtns() {
   Array.from(noteList.children).forEach((child) => {
     const removeNoteBtn = child.querySelector(".removeNoteBtn");
     if (removeNoteBtn) {
@@ -257,8 +257,10 @@ function removeRemoveNoteBtns() {
     }
   });
 }
-document.addEventListener("DOMContentLoaded", (e) => {
-  loadLocalStorageKeys();
+document.addEventListener("keydown", (e) => {
+  if (e.key === "p") {
+    loadLocalStorageKeys();
+  }
 });
 function loadLocalStorageKeys() {
   const notes = storage.loadLocalStorage();
