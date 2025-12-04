@@ -13,6 +13,7 @@ const noteList = document.getElementById("noteList") as HTMLUListElement;
 let noteCount: number = 0;
 let isEditActive: boolean = false;
 let isRemoveActive: boolean = false;
+let isFillerTextVisible: boolean = true;
 
 // cSpell:disable-next-line
 //hotkeys um buttons oben zu aktivieren und zu deaktivieren
@@ -32,10 +33,16 @@ window.addEventListener("keydown", (e: KeyboardEvent) => {
     isRemoveActive = !isRemoveActive;
     if (isRemoveActive) {
       removeBtn.classList.add("active");
-      addRemoveNoteBtns();
+      if (!isFillerTextVisible) {
+        addRemoveNoteBtns();
+      } else {
+        removeRemoveNoteBtns();
+      }
     } else {
       removeBtn.classList.remove("active");
-      removeRemoveNoteBtns();
+      if (!isFillerTextVisible) {
+        removeRemoveNoteBtns();
+      }
     }
   }
 });
@@ -192,7 +199,11 @@ removeBtn.addEventListener("click", (e) => {
   //   console.log(`RemoveBtnState:${isRemoveActive}`);
   if (isRemoveActive) {
     removeBtn.classList.add("active");
-    addRemoveNoteBtns();
+    if (!isFillerTextVisible) {
+      addRemoveNoteBtns();
+    } else {
+      removeRemoveNoteBtns();
+    }
   } else {
     removeBtn.classList.remove("active");
     removeRemoveNoteBtns();
@@ -232,11 +243,13 @@ function checkNodeListChildren() {
       emptyListMsg.id = "emptyListTxt";
       noteList.appendChild(emptyListMsg);
     }
+    isFillerTextVisible = true;
     emptyListMsg.style.display = "block";
   } else {
     if (noteList.contains(emptyListMsg)) {
       noteList.removeChild(emptyListMsg);
     }
+    isFillerTextVisible = false;
     emptyListMsg.style.display = "none";
   }
 }
@@ -260,13 +273,6 @@ noteList.addEventListener("dblclick", (e) => {
 function editBtnClickHandler(target: HTMLElement) {
   if (target.tagName !== "LI") return;
   Note.editNote(target);
-}
-
-function removeNoteBtnClickHandler(target: HTMLElement) {
-  console.log("removeNoteBtn pressed!");
-  const noteListItemWrapper = target.closest(".noteListItemWrapper");
-  if (!noteListItemWrapper) return;
-  noteListItemWrapper.remove();
 }
 
 function addRemoveNoteBtns() {
