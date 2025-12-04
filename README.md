@@ -32,4 +32,4 @@
 <img src="./IMGS/Delete_img.png" width="500" height="1000">
 <img src="./IMGS/Highlighted_img.png" width="500"height="1000">
 
-_*I hope you like this small project c:*_ _***-Dash***_
+_*~ I hope you like this small project c: ~*_ _*** --Dash***_
