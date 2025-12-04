@@ -1,7 +1,4 @@
-//cSpell: disable
-//TODO: Ich möchte einbauen das wenn man die notes Editieren oder Löschen möchte das man den Editieren oder Löschen Knopf
-// TODO mit anclicken an und aus toggelt und dann im active toggle modus per doppelclick eine beliebige note löschen kann
-//cSpell: enable
+import * as storage from "./storage";
 
 const addBtn = document.getElementById("addBtn") as HTMLButtonElement;
 const editBtn = document.getElementById("editBtn") as HTMLButtonElement;
@@ -74,6 +71,7 @@ class Note {
       noteListItem.classList.add("listElement");
       noteListItem.innerHTML = this.note;
       noteListItem.id = `${this.id}`;
+      storage.add(`note${this.id}`, this.note);
       noteListItemWrapper.appendChild(noteListItem);
     }
   }
@@ -305,4 +303,14 @@ function removeRemoveNoteBtns() {
       removeNoteBtn.remove();
     }
   });
+}
+
+document.addEventListener("keydown", (e) => {
+  if (e.key.toLocaleLowerCase() === "p") {
+    readOutNotes();
+  }
+});
+//Testing a function I made
+function readOutNotes() {
+  storage.getFilteredBy("note");
 }
