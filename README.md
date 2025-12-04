@@ -1,7 +1,6 @@
 # INFO
 
-> [!NOTE]
-> **I made this website to practice typescript so pls don't expect to much from this, ty!**
+> [!NOTE] > **I made this website to practice typescript so pls don't expect to much from this, ty!**
 
 # FEATURES
 
