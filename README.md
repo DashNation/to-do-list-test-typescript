@@ -18,7 +18,7 @@
   <img src="./IMGS/Reset_img.png" width="500" height="1000">
 
 - If you do not have any toggle on you can double click a note to highlight it
-  <img src="./IMGS/Highlighted_img.png" width="500"height="1000">
+  <img src="./IMGS/Highlighted_img.png" width="500" height="1000">
 
 ## HOTKEYS
 
