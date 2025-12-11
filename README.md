@@ -9,6 +9,7 @@
   <img src="./IMGS/Main_img.png" width="500" height="1000">
 
 - While being in edit mode double click a note to edit it
+- 
   <img src="./IMGS/Edit_img.png" width="500" height="1000">
 
 - While being in remove mode press the remove button next to the note you want to delete
