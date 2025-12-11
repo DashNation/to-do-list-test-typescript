@@ -338,6 +338,7 @@ function loadLocalStorageKeys() {
 todoValueInputField.addEventListener("keydown", (e) => {
   if (e.key === "Enter" && todoValueInputField.value == "//reset") {
     reset();
+    window.location.reload();
   }
 });
 
@@ -345,7 +346,6 @@ function reset() {
   storage.clear();
   todoValueInputField.value = "";
   todoValueInputField.placeholder = "reset successful!";
-  todoValueInputField.style.color = "#2cff2cff";
   const children = noteList.querySelectorAll(".noteListItemWrapper");
   children.forEach((child) => child.remove());
   checkNodeListChildren();
